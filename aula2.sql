@@ -13,7 +13,6 @@ FROM
 LIMIT 15;
 
 
-
 SELECT
      " Select some specific people"
 AS
@@ -29,8 +28,6 @@ where
     customer.first_name = 'MARY' OR
     customer.first_name = 'PATRICIA'
 LIMIT 15;
-
-
 
 SELECT
      " Select some specific people with and"
@@ -48,10 +45,8 @@ where
     customer.first_name = 'PATRICIA'
 LIMIT 15;
 
-
-
 SELECT
-     "Select some specific people with and that works"
+     " Select some specific people with and that works"
 AS
     "INFO";
 SELECT
@@ -66,36 +61,33 @@ where
     customer.email = 'WADE.DELVALLE@sakilacustomer.org'
 LIMIT 15;
 
-
-
 SELECT
-     "specific selects of films"
+     " Specific selects of films"
 AS
     "INFO";
+
 SELECT
-film.rating,
-film.title,
-film.description,
-film.length,
-film.language_id,
-film.release_year
-FROM 
-film
-WHERE 
-(
+    film.rating,
+    film.title,
+    film.description,
+    film.length,
+    film.language_id,
+    film.release_year
+FROM
+    film
+WHERE
     (film.release_year > 2000 AND film.release_year < 2010) AND
-    (film.length > 70 AND film.length < 80) AND
+    (film.length > 70 AND film.length < 80) AND 
     (film.language_id = 1 OR film.language_id = 5) AND
-    (film.rating = '6' OR film.rating = 'R' OR film.rating = 'NC-17')
-)
+    (film.rating = 'G' OR film.rating = 'R' OR film.rating = 'NC-17')
+
 LIMIT 40;
 
-
-
 SELECT
-     "use of IN"
+     " Use of IN"
 AS
     "INFO";
+
 SELECT
     film.rating,
     film.title,
@@ -103,20 +95,21 @@ SELECT
     film.length,
     film.language_id,
     film.release_year
-FROM 
+FROM
     film
-WHERE 
+WHERE
     (film.release_year > 2000 AND film.release_year < 2010) AND
-    (film.length > 70 AND film.length < 80) AND
+    (film.length > 70 AND film.length < 80) AND 
     (film.language_id IN (1,5)) AND
     (film.rating IN ('G','R','NC-17'))
-LIMIT 40;
 
+LIMIT 40 ;
 
 SELECT
-   "use of BETWEEN"
+     " Use of BETWEEN" /* ENTRE */
 AS
     "INFO";
+
 SELECT
     film.rating,
     film.title,
@@ -124,45 +117,21 @@ SELECT
     film.length,
     film.language_id,
     film.release_year
-FROM 
+FROM
     film
-WHERE 
+WHERE
     (film.release_year BETWEEN 2000 AND 2010) AND
-    (film.length BETWEEN 70 AND 80) AND
+    (film.length BETWEEN 70 AND 80) AND 
     (film.language_id IN (1,5)) AND
     (film.rating IN ('G','R','NC-17'))
-LIMIT 40;
 
-/*-------*/
+LIMIT 40 ;
+
 SELECT
-    "Introduction To Sub Query With Variable"
+     " Introduction To Sub Query "
 AS
     "INFO";
 
-SET @FRANCH_ID=(SELECT
-    language_id 
-FROM 
-    language 
-WHERE name = 'English');
-
-SET @ENGLISH_ID=(SELECT
-    language_id 
-FROM 
-    language 
-WHERE name = 'French');
-
-SET @ITALIAN_ID=(SELECT
-    language_id 
-FROM 
-    language 
-WHERE name = 'Italian');
-/*-------*/
-
-
-SELECT
-   "Introduction To Sub Query"
-AS
-    "INFO";
 SELECT
     film.rating,
     film.title,
@@ -170,18 +139,90 @@ SELECT
     film.length,
     film.language_id,
     film.release_year
-FROM 
+FROM
     film
-WHERE 
+WHERE
     (film.release_year BETWEEN 2000 AND 2010) AND
-    (film.length BETWEEN 70 AND 80) AND
-    (film.language_id IN(@FRANCH_ID,@ENGLISH_ID,@ITALIAN_ID)) AND
-    (film.rating IN ('G','R','NC-17'))
+    (film.length BETWEEN 70 AND 80) AND 
+    (film.language_id IN(
+        (
+            SELECT
+                language_id 
+            FROM
+                language
+            WHERE
+                name = 'English'
+        ),
+        (
+            SELECT
+                language_id 
+            FROM
+                language
+            WHERE
+                name = 'Italian'
+        ),
+        (
+            SELECT
+                language_id 
+            FROM
+                language
+            WHERE
+                name = 'French'
+        )
+    )
 
-    ORDER BY
-        film.language_id
-    DESC
-    
+    ) AND
+    (film.rating IN ('G','R','NC-17'))
+ORDER BY 
+    film.language_id
+DESC
+
 LIMIT 40;
 
+SELECT
+     " Introduction To Sub Query with variable "
+AS
+    "INFO";
 
+SET @FRENCH_ID = (SELECT
+    language_id
+FROM 
+    language
+WHERE
+    name = 'French');
+
+SET @ENGLISH_ID = (SELECT
+    language_id
+FROM 
+    language
+WHERE
+    name = 'English');
+
+SET @ITALIAN_ID = (SELECT
+    language_id
+FROM 
+    language
+WHERE
+    name = 'Italian');
+
+SELECT
+    film.rating,
+    film.title,
+    film.description,
+    film.length,
+    film.language_id,
+    film.release_year
+FROM
+    film
+WHERE
+    (film.release_year BETWEEN 2000 AND 2010) AND
+    (film.length BETWEEN 70 AND 80) AND 
+    (film.language_id IN (@FRENCH_ID, @ENGLISH_ID,@ITALIAN_ID)
+    )
+AND
+    (film.rating IN ('G','R','NC-17'))
+ORDER BY 
+    film.language_id
+DESC
+
+LIMIT 40;

@@ -5,7 +5,7 @@ SET @ID_CUSTOMER_SELECTED = (SELECT
 FROM
     customer
 WHERE
-    customer.email = 'KIM.CRUZ@sakilacustomer.org');
+    customer.email = 'DOROTHY.TAYLOR@sakilacustomer.org');
 SELECT @ID_CUSTOMER_SELECTED AS 'ID_CUSTOMER_SELECTED';
 
 SELECT
@@ -33,23 +33,9 @@ WHERE
                             FROM
                                 customer
                             WHERE
-                                customer.email = 'KIM.CRUZ@sakilacustomer.org'                           
+                                customer.email = 'DOROTHY.TAYLOR@sakilacustomer.org'                           
                         )
                 )
         )
 );
 
-//*
-
-SELECT
-    actor.actor_id,
-    actor.first_name,
-    actor.last_name
-FROM
-    actor
-WHERE
-    actor_id IN (
-        SELECT
-            
-
-    )

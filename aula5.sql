@@ -436,3 +436,10 @@ INNER JOIN
     restaurantes ON garcom_restaurantes.id_restaurante = restaurantes.id_restaurante
 WHERE
     garcom.nome IN ('Jorge', 'Odair', 'Gerson'); 
+
+
+
+
+
+
+
